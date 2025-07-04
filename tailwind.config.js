@@ -7,50 +7,39 @@ export default {
         'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
       },
       colors: {
-        'teal': {
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-        },
-        'cyan': {
-          400: '#22d3ee',
-          500: '#06b6d4',
-        },
-        'purple': {
-          400: '#a855f7',
-          500: '#9333ea',
-          600: '#7c3aed',
-        },
-        'gray': {
-          850: '#1f2937',
-          900: '#111827',
-          950: '#0f172a',
+        slate: {
+          850: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
         }
       },
       animation: {
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'glow': 'glow 2s ease-in-out infinite',
+        'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
+        'gradient': 'gradient 3s ease infinite',
       },
       keyframes: {
-        glow: {
-          '0%, 100%': { opacity: '0.5' },
-          '50%': { opacity: '1' },
+        'pulse-slow': {
+          '0%, 100%': { opacity: '0.4' },
+          '50%': { opacity: '0.8' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
+        },
+        gradient: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
         }
       },
       backdropBlur: {
         'xs': '2px',
       },
       boxShadow: {
-        'teal': '0 0 30px rgba(45, 212, 191, 0.3)',
-        'cyan': '0 0 30px rgba(34, 211, 238, 0.3)',
-        'purple': '0 0 30px rgba(168, 85, 247, 0.3)',
-        'glow-teal': '0 0 50px rgba(45, 212, 191, 0.4)',
-        'glow-cyan': '0 0 50px rgba(34, 211, 238, 0.4)',
+        'glow-blue': '0 0 50px rgba(59, 130, 246, 0.4)',
+        'glow-purple': '0 0 50px rgba(139, 92, 246, 0.4)',
+        'glow-cyan': '0 0 50px rgba(6, 182, 212, 0.4)',
       },
     },
   },

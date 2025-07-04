@@ -1,69 +1,75 @@
 import React from 'react';
-import { Check, Star, Zap } from 'lucide-react';
+import { Check, Star, Zap, ArrowRight } from 'lucide-react';
 
 const plans = [
   {
     name: "Starter",
     price: "$99",
     period: "per month",
-    description: "Perfect for small businesses getting started with AI",
+    description: "Perfect for small businesses getting started with AI automation",
     features: [
       "Up to 1,000 conversations/month",
       "Basic AI agent deployment",
       "Email support",
       "Standard integrations",
-      "Basic analytics"
+      "Basic analytics dashboard"
     ],
     popular: false,
-    color: "teal"
+    color: "blue",
+    gradient: "from-blue-500 to-cyan-500"
   },
   {
     name: "Professional",
     price: "$299",
     period: "per month",
-    description: "Ideal for growing businesses with advanced needs",
+    description: "Ideal for growing businesses with advanced automation needs",
     features: [
       "Up to 10,000 conversations/month",
-      "Advanced AI agents",
-      "Priority support",
-      "Custom integrations",
-      "Advanced analytics",
+      "Advanced AI agents with learning",
+      "Priority support & onboarding",
+      "Custom integrations & APIs",
+      "Advanced analytics & insights",
       "Multi-language support",
-      "API access"
+      "White-label options"
     ],
     popular: true,
-    color: "cyan"
+    color: "purple",
+    gradient: "from-purple-500 to-pink-500"
   },
   {
     name: "Enterprise",
     price: "Custom",
     period: "pricing",
-    description: "For large organizations with specific requirements",
+    description: "For large organizations requiring enterprise-grade solutions",
     features: [
       "Unlimited conversations",
       "Custom AI model training",
-      "Dedicated support team",
-      "White-label solutions",
-      "Advanced security",
+      "Dedicated success manager",
+      "Enterprise security & compliance",
       "SLA guarantees",
-      "On-premise deployment"
+      "On-premise deployment",
+      "24/7 phone support"
     ],
     popular: false,
-    color: "purple"
+    color: "emerald",
+    gradient: "from-emerald-500 to-teal-500"
   }
 ];
 
 const Pricing = () => {
   return (
-    <section className="py-24 px-4 bg-gray-950">
+    <section className="py-24 px-4 bg-slate-950">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-400/20 backdrop-blur-sm mb-6">
+            <span className="text-sm text-purple-300 font-medium">Pricing Plans</span>
+          </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-            Simple <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">Pricing</span>
+            Choose Your <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Plan</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Choose the perfect plan for your business needs
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+            Flexible pricing options designed to scale with your business needs
           </p>
         </div>
 
@@ -72,67 +78,85 @@ const Pricing = () => {
           {plans.map((plan, index) => (
             <div 
               key={index}
-              className={`relative bg-gray-900/60 backdrop-blur-sm p-8 rounded-2xl border transition-all duration-500 hover:transform hover:scale-105 ${
+              className={`relative bg-white/5 backdrop-blur-sm p-8 rounded-2xl border transition-all duration-500 hover:transform hover:scale-105 ${
                 plan.popular 
-                  ? 'border-cyan-400/50 shadow-glow-cyan' 
-                  : 'border-gray-800/50 hover:border-teal-400/50 hover:shadow-glow-teal'
+                  ? 'border-purple-400/50 shadow-2xl shadow-purple-500/20' 
+                  : 'border-white/10 hover:border-white/20'
               }`}
             >
               {/* Popular badge */}
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-cyan-400 to-teal-400 text-gray-900 px-4 py-2 rounded-full font-semibold text-sm flex items-center gap-1">
+                  <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full font-semibold text-sm flex items-center gap-1">
                     <Star className="w-4 h-4" />
                     Most Popular
                   </div>
                 </div>
               )}
 
-              {/* Plan icon */}
-              <div className="mb-6">
-                <div className={`w-12 h-12 rounded-xl bg-${plan.color}-500/10 border border-${plan.color}-400/30 flex items-center justify-center`}>
-                  <Zap className={`w-6 h-6 text-${plan.color}-400`} />
-                </div>
-              </div>
+              {/* Gradient overlay */}
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${plan.gradient} opacity-0 ${plan.popular ? 'opacity-5' : 'hover:opacity-5'} transition-opacity duration-500`}></div>
 
-              {/* Plan name */}
-              <h3 className="text-2xl font-bold mb-2 text-white">
-                {plan.name}
-              </h3>
-
-              {/* Price */}
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-white">{plan.price}</span>
-                <span className="text-gray-400 ml-2">{plan.period}</span>
-              </div>
-
-              {/* Description */}
-              <p className="text-gray-300 mb-8">
-                {plan.description}
-              </p>
-
-              {/* Features */}
-              <ul className="space-y-4 mb-8">
-                {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center gap-3 text-gray-300">
-                    <div className={`w-5 h-5 rounded-full bg-${plan.color}-500/20 border border-${plan.color}-400/50 flex items-center justify-center flex-shrink-0`}>
-                      <Check className={`w-3 h-3 text-${plan.color}-400`} />
+              <div className="relative z-10">
+                {/* Plan icon */}
+                <div className="mb-6">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${plan.gradient} p-0.5`}>
+                    <div className="w-full h-full rounded-xl bg-slate-900 flex items-center justify-center">
+                      <Zap className="w-6 h-6 text-white" />
                     </div>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                </div>
 
-              {/* CTA Button */}
-              <button className={`w-full font-semibold py-3 px-6 rounded-lg transition-all duration-300 ${
-                plan.popular
-                  ? 'btn-primary text-white'
-                  : 'btn-secondary text-teal-400 hover:text-white'
-              }`}>
-                {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
-              </button>
+                {/* Plan name */}
+                <h3 className="text-2xl font-bold mb-2 text-white">
+                  {plan.name}
+                </h3>
+
+                {/* Price */}
+                <div className="mb-4">
+                  <span className="text-4xl font-bold text-white">{plan.price}</span>
+                  <span className="text-slate-400 ml-2">{plan.period}</span>
+                </div>
+
+                {/* Description */}
+                <p className="text-slate-300 mb-8">
+                  {plan.description}
+                </p>
+
+                {/* Features */}
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center gap-3 text-slate-300">
+                      <div className={`w-5 h-5 rounded-full bg-gradient-to-r ${plan.gradient} p-0.5 flex-shrink-0`}>
+                        <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                      </div>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA Button */}
+                <button className={`w-full font-semibold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                  plan.popular
+                    ? `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-lg hover:shadow-purple-500/25`
+                    : 'border border-white/20 text-white hover:bg-white/5'
+                }`}>
+                  {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-16">
+          <p className="text-slate-400 mb-4">Need a custom solution?</p>
+          <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+            Contact our sales team →
+          </button>
         </div>
       </div>
     </section>

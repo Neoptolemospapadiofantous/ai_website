@@ -79,6 +79,55 @@ html {
   }
 }
 
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes typing-dots {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -100,15 +149,35 @@ html {
   animation: count-up 0.6s ease-out forwards;
 }
 
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.6s ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s ease-out forwards;
+}
+
+.animate-typing-dots {
+  animation: typing-dots 1.4s ease-in-out infinite;
+}
+
 /* Delay classes */
+.delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
 .delay-500 { animation-delay: 0.5s; }
 .delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
 .delay-800 { animation-delay: 0.8s; }
 .delay-1000 { animation-delay: 1s; }
 .delay-1200 { animation-delay: 1.2s; }
 .delay-1400 { animation-delay: 1.4s; }
+.delay-1500 { animation-delay: 1.5s; }
 .delay-2000 { animation-delay: 2s; }
 .delay-3000 { animation-delay: 3s; }
 .delay-4000 { animation-delay: 4s; }
@@ -165,8 +234,38 @@ input:focus-visible {
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
 }
 
+/* Chat bubble animations */
+.chat-bubble-enter {
+  animation: bounce-in 0.5s ease-out forwards;
+}
+
+.typing-indicator {
+  animation: typing-dots 1.4s ease-in-out infinite;
+}
+
 /* Custom selection */
 ::selection {
   background: rgba(59, 130, 246, 0.3);
   color: white;
+}
+
+/* Responsive chat windows */
+@media (max-width: 768px) {
+  .absolute.w-80 {
+    width: 280px;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .absolute.w-80 {
+    position: relative !important;
+    width: 100%;
+    max-width: 320px;
+    margin: 1rem auto;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
 }

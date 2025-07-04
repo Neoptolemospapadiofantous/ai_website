@@ -111,7 +111,7 @@ const AnimatedChatWindow = ({ conversation, delay }) => {
       <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-          <span className="text-white font-medium text-sm">AI Agent</span>
+          <span className="text-white font-medium text-sm">aisona AI</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-gray-400">
           <Clock className="w-3 h-3" />
@@ -141,7 +141,7 @@ const AnimatedChatWindow = ({ conversation, delay }) => {
       <div className="flex items-center justify-center mt-4 pt-3 border-t border-white/10">
         <div className="flex items-center gap-2 text-xs text-green-400">
           <CheckCircle className="w-3 h-3" />
-          <span>Powered by AI Platform</span>
+          <span>Powered by aisona.tech</span>
         </div>
       </div>
     </div>

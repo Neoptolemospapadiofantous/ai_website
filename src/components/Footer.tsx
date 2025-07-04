@@ -15,7 +15,7 @@ const Footer = () => {
                 </div>
               </div>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                AI Platform
+                aisona.tech
               </h3>
             </div>
             <p className="text-slate-400 mb-8 max-w-md leading-relaxed">
@@ -41,7 +41,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Product */}
           <div>
             <h4 className="text-lg font-semibold mb-6 text-white">Product</h4>
             <ul className="space-y-3">
@@ -93,7 +93,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-400 text-center md:text-left">
-            © 2024 AI Platform. All rights reserved.
+            © 2024 aisona.tech. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm">
             <a href="#" className="text-slate-400 hover:text-blue-400 transition-colors">Privacy Policy</a>

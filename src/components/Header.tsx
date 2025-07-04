@@ -16,7 +16,7 @@ const Header = () => {
               </div>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              AI Platform
+              aisona.tech
             </span>
           </div>
 

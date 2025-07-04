@@ -137,11 +137,11 @@ const Pricing = () => {
                   ))}
                 </ul>
 
-                {/* CTA Button */}
+                {/* CTA Button - Fixed alignment */}
                 <button className={`w-full font-semibold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                   plan.popular
                     ? `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-lg hover:shadow-purple-500/25`
-                    : 'border border-white/20 text-white hover:bg-white/5'
+                    : `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-lg hover:shadow-blue-500/25`
                 }`}>
                   {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
                   <ArrowRight className="w-4 h-4" />

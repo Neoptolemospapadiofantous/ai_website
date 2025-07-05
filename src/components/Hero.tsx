@@ -36,17 +36,6 @@ const chatConversations: ChatConversation[] = [
   {
     id: 1,
     messages: [
-      { type: 'user', text: 'Hi, I need help with my order', time: '2:34 PM' },
-      { type: 'ai', text: 'Hello! I\'d be happy to help you with your order. Could you please provide your order number?', time: '2:34 PM' },
-      { type: 'user', text: 'It\'s #ORD-12345', time: '2:35 PM' },
-      { type: 'ai', text: 'Perfect! I found your order. It was shipped yesterday and should arrive tomorrow by 3 PM.', time: '2:35 PM' }
-    ],
-    position: { top: '8%', left: '2%' },
-    delay: 0
-  },
-  {
-    id: 2,
-    messages: [
       { type: 'user', text: 'What are your business hours?', time: '3:15 PM' },
       { type: 'ai', text: 'We\'re available 24/7! Our AI agents are always here to help, and human support is available Mon-Fri 9AM-6PM EST.', time: '3:15 PM' },
       { type: 'user', text: 'Can you help me choose a plan?', time: '3:16 PM' },
@@ -56,7 +45,7 @@ const chatConversations: ChatConversation[] = [
     delay: 2000
   },
   {
-    id: 3,
+    id: 2,
     messages: [
       { type: 'user', text: 'How secure is your platform?', time: '4:22 PM' },
       { type: 'ai', text: 'Security is our top priority! We use enterprise-grade encryption and SOC 2 compliance.', time: '4:22 PM' },

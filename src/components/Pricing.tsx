@@ -1,4 +1,3 @@
-import React from 'react';
 import { Check, Star, Zap, ArrowRight } from 'lucide-react';
 
 const plans = [

@@ -1,8 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight, Bot, Sparkles, Play, Zap, Star, MessageCircle, User, CheckCircle, Clock } from 'lucide-react';
 
+// Type definitions
+interface Message {
+  type: 'user' | 'ai';
+  text: string;
+  time: string;
+}
+
+interface ChatConversation {
+  id: number;
+  messages: Message[];
+  position: {
+    top?: string;
+    left?: string;
+    right?: string;
+    bottom?: string;
+  };
+  delay: number;
+}
+
+interface ChatBubbleProps {
+  message: Message;
+  isAi: boolean;
+  isTyping?: boolean;
+}
+
+interface AnimatedChatWindowProps {
+  conversation: ChatConversation;
+  delay: number;
+}
+
 // Chat conversation data
-const chatConversations = [
+const chatConversations: ChatConversation[] = [
   {
     id: 1,
     messages: [
@@ -41,7 +71,7 @@ const chatConversations = [
   }
 ];
 
-const ChatBubble = ({ message, isAi, isTyping = false }) => (
+const ChatBubble = ({ message, isAi, isTyping = false }: ChatBubbleProps) => (
   <div className={`flex items-start gap-3 mb-4 ${isAi ? '' : 'flex-row-reverse'}`}>
     <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
       isAi 
@@ -71,8 +101,8 @@ const ChatBubble = ({ message, isAi, isTyping = false }) => (
   </div>
 );
 
-const AnimatedChatWindow = ({ conversation, delay }) => {
-  const [visibleMessages, setVisibleMessages] = useState([]);
+const AnimatedChatWindow = ({ conversation, delay }: AnimatedChatWindowProps) => {
+  const [visibleMessages, setVisibleMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
@@ -130,7 +160,7 @@ const AnimatedChatWindow = ({ conversation, delay }) => {
         ))}
         {isTyping && (
           <ChatBubble 
-            message={{ text: '', time: '' }} 
+            message={{ text: '', time: '', type: 'ai' }} 
             isAi={true} 
             isTyping={true} 
           />

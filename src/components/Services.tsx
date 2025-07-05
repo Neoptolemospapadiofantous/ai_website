@@ -1,4 +1,3 @@
-import React from 'react';
 import { MessageSquare, Ticket, Users, Zap, Code, ArrowRight } from 'lucide-react';
 
 const services = [

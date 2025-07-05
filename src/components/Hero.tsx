@@ -284,7 +284,7 @@ const Hero = () => {
       <AnimatedParticles />
 
       {/* Main Content Container - Centered and properly spaced */}
-      <div className="relative z-10 text-center max-w-6xl mx-auto px-4">
+      <div className="relative z-10 text-center max-w-6xl mx-auto px-4 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
         {/* Badge with animation */}
         <div className="mb-8 flex justify-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-400/20 backdrop-blur-sm animate-fade-in-up">

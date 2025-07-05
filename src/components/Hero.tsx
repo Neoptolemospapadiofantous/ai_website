@@ -52,7 +52,7 @@ const chatConversations: ChatConversation[] = [
       { type: 'user', text: 'What about data privacy?', time: '4:23 PM' },
       { type: 'ai', text: 'We\'re GDPR compliant and never share your data. You maintain full control.', time: '4:23 PM' }
     ],
-    position: { bottom: '8%', left: '4%' },
+    position: { bottom: '8%', left: '1%' },
     delay: 4000
   }
 ];

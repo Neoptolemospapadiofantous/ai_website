@@ -31,7 +31,7 @@ interface AnimatedChatWindowProps {
   delay: number;
 }
 
-// Chat conversation data
+// Chat conversation data with adjusted positioning
 const chatConversations: ChatConversation[] = [
   {
     id: 1,
@@ -43,7 +43,7 @@ const chatConversations: ChatConversation[] = [
       { type: 'user', text: 'Yes please!', time: '2:36 PM' },
       { type: 'ai', text: 'Here\'s your tracking link: track.example.com/12345. You\'ll receive SMS updates automatically. Anything else I can help with?', time: '2:36 PM' }
     ],
-    position: { top: '15%', left: '8%' },
+    position: { top: '12%', left: '5%' },
     delay: 0
   },
   {
@@ -55,7 +55,7 @@ const chatConversations: ChatConversation[] = [
       { type: 'ai', text: 'Absolutely! Based on your needs, I\'d recommend our Professional plan. It includes advanced AI agents and priority support. Would you like a demo?', time: '3:16 PM' },
       { type: 'user', text: 'That sounds perfect!', time: '3:17 PM' }
     ],
-    position: { top: '25%', right: '10%' },
+    position: { top: '18%', right: '5%' },
     delay: 2000
   },
   {
@@ -66,7 +66,7 @@ const chatConversations: ChatConversation[] = [
       { type: 'user', text: 'What about data privacy?', time: '4:23 PM' },
       { type: 'ai', text: 'We\'re GDPR compliant and never share your data. You maintain full control with options for data residency and deletion.', time: '4:23 PM' }
     ],
-    position: { bottom: '20%', left: '12%' },
+    position: { bottom: '15%', left: '8%' },
     delay: 4000
   }
 ];
@@ -134,7 +134,7 @@ const AnimatedChatWindow = ({ conversation, delay }: AnimatedChatWindowProps) =>
 
   return (
     <div 
-      className="absolute w-80 bg-gray-900/80 backdrop-blur-md rounded-2xl border border-white/20 p-4 shadow-2xl animate-fade-in-up"
+      className="absolute w-80 bg-gray-900/80 backdrop-blur-md rounded-2xl border border-white/20 p-4 shadow-2xl animate-fade-in-up hidden lg:block"
       style={conversation.position}
     >
       {/* Chat Header */}
@@ -180,7 +180,7 @@ const AnimatedChatWindow = ({ conversation, delay }: AnimatedChatWindowProps) =>
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden pt-20">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900"></div>
       
@@ -213,23 +213,23 @@ const Hero = () => {
         />
       ))}
 
-      {/* Floating AI indicators */}
+      {/* Floating AI indicators - repositioned to avoid overlap */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 animate-float delay-1000">
+        <div className="absolute top-1/4 right-1/3 animate-float delay-1000 hidden lg:block">
           <div className="flex items-center gap-2 bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-full px-3 py-1">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             <span className="text-xs text-green-300 font-medium">AI Active</span>
           </div>
         </div>
         
-        <div className="absolute bottom-1/3 right-1/5 animate-float delay-3000">
+        <div className="absolute bottom-1/3 right-1/4 animate-float delay-3000 hidden lg:block">
           <div className="flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-full px-3 py-1">
             <MessageCircle className="w-3 h-3 text-blue-400" />
             <span className="text-xs text-blue-300 font-medium">24/7 Support</span>
           </div>
         </div>
 
-        <div className="absolute top-1/2 left-1/5 animate-float delay-2000">
+        <div className="absolute top-1/2 left-1/4 animate-float delay-2000 hidden lg:block">
           <div className="flex items-center gap-2 bg-purple-500/20 backdrop-blur-sm border border-purple-400/30 rounded-full px-3 py-1">
             <Zap className="w-3 h-3 text-purple-400" />
             <span className="text-xs text-purple-300 font-medium">Instant Response</span>
@@ -253,7 +253,8 @@ const Hero = () => {
         ))}
       </div>
 
-      <div className="relative z-10 text-center max-w-6xl mx-auto">
+      {/* Main Content Container - Improved spacing and centering */}
+      <div className="relative z-10 text-center max-w-5xl mx-auto px-4">
         {/* Badge with animation */}
         <div className="mb-8 flex justify-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-400/20 backdrop-blur-sm animate-fade-in-up">
@@ -263,25 +264,26 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Headline with staggered animation */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-          <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent animate-fade-in-up delay-200">
+        {/* Headline with improved spacing and staggered animation */}
+        <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight">
+          <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent animate-fade-in-up delay-200 block">
             Deploy Smart
           </span>
-          <br />
-          <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-fade-in-up delay-400">
+          <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-fade-in-up delay-400 block mt-2">
             AI Agents
           </span>
         </h1>
 
-        {/* Subtitle with animation */}
-        <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in-up delay-600">
-          Watch your AI agents in action! Deploy intelligent conversational bots that handle customer support, 
-          generate leads, and automate workflows with human-like precision.
-        </p>
+        {/* Subtitle with improved spacing and animation */}
+        <div className="mb-12 animate-fade-in-up delay-600">
+          <p className="text-lg md:text-xl lg:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
+            Watch your AI agents in action! Deploy intelligent conversational bots that handle customer support, 
+            generate leads, and automate workflows with human-like precision.
+          </p>
+        </div>
 
-        {/* CTA Buttons with animation */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fade-in-up delay-800">
+        {/* CTA Buttons with improved spacing and animation */}
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20 animate-fade-in-up delay-800">
           <button className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25 animate-pulse-glow">
             <span className="flex items-center gap-2">
               Start Building Agents
@@ -297,19 +299,19 @@ const Hero = () => {
           </button>
         </div>
 
-        {/* Stats with staggered animation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-          <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 animate-fade-in-up delay-1000 hover:bg-white/10 transition-all duration-300">
-            <div className="text-3xl font-bold text-blue-400 mb-2 animate-count-up">99.9%</div>
-            <div className="text-slate-400">Response Accuracy</div>
+        {/* Stats with improved spacing and staggered animation */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 animate-fade-in-up delay-1000 hover:bg-white/10 transition-all duration-300">
+            <div className="text-3xl lg:text-4xl font-bold text-blue-400 mb-3 animate-count-up">99.9%</div>
+            <div className="text-slate-400 text-sm lg:text-base">Response Accuracy</div>
           </div>
-          <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 animate-fade-in-up delay-1200 hover:bg-white/10 transition-all duration-300">
-            <div className="text-3xl font-bold text-purple-400 mb-2 animate-count-up">24/7</div>
-            <div className="text-slate-400">AI Availability</div>
+          <div className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 animate-fade-in-up delay-1200 hover:bg-white/10 transition-all duration-300">
+            <div className="text-3xl lg:text-4xl font-bold text-purple-400 mb-3 animate-count-up">24/7</div>
+            <div className="text-slate-400 text-sm lg:text-base">AI Availability</div>
           </div>
-          <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 animate-fade-in-up delay-1400 hover:bg-white/10 transition-all duration-300">
-            <div className="text-3xl font-bold text-cyan-400 mb-2 animate-count-up">2.5s</div>
-            <div className="text-slate-400">Avg Response Time</div>
+          <div className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 animate-fade-in-up delay-1400 hover:bg-white/10 transition-all duration-300">
+            <div className="text-3xl lg:text-4xl font-bold text-cyan-400 mb-3 animate-count-up">2.5s</div>
+            <div className="text-slate-400 text-sm lg:text-base">Avg Response Time</div>
           </div>
         </div>
       </div>

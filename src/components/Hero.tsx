@@ -8,6 +8,29 @@ interface Message {
   time: string;
 }
 
+interface ChatConversation {
+  id: number;
+  messages: Message[];
+  position: {
+    top?: string;
+    left?: string;
+    right?: string;
+    bottom?: string;
+  };
+  delay: number;
+}
+
+interface ChatBubbleProps {
+  message: Message;
+  isAi: boolean;
+  isTyping?: boolean;
+}
+
+interface AnimatedChatWindowProps {
+  conversation: ChatConversation;
+  delay: number;
+}
+
 // Memoized chat conversation data with better positioning
 const chatConversations: ChatConversation[] = [
   {
@@ -29,40 +52,41 @@ const chatConversations: ChatConversation[] = [
       { type: 'user', text: 'What about data privacy?', time: '4:23 PM' },
       { type: 'ai', text: 'We\'re GDPR compliant and never share your data. You maintain full control.', time: '4:23 PM' }
     ],
-    // Added more margin on the right side - changed from left: '3%' to left: '3%', right: '20%'
-    position: { bottom: '8%', left: '3%', right: '20%' },
+    position: { bottom: '8%', left: '4%' },
     delay: 4000
   }
 ];
 
-// Alternative approach - if you want to move it more to the center with right margin:
-const chatConversationsAlternative: ChatConversation[] = [
-  {
-    id: 1,
-    messages: [
-      { type: 'user', text: 'What are your business hours?', time: '3:15 PM' },
-      { type: 'ai', text: 'We\'re available 24/7! Our AI agents are always here to help, and human support is available Mon-Fri 9AM-6PM EST.', time: '3:15 PM' },
-      { type: 'user', text: 'Can you help me choose a plan?', time: '3:16 PM' },
-      { type: 'ai', text: 'Absolutely! Based on your needs, I\'d recommend our Professional plan.', time: '3:16 PM' }
-    ],
-    position: { top: '12%', right: '2%' },
-    delay: 2000
-  },
-  {
-    id: 2,
-    messages: [
-      { type: 'user', text: 'How secure is your platform?', time: '4:22 PM' },
-      { type: 'ai', text: 'Security is our top priority! We use enterprise-grade encryption and SOC 2 compliance.', time: '4:22 PM' },
-      { type: 'user', text: 'What about data privacy?', time: '4:23 PM' },
-      { type: 'ai', text: 'We\'re GDPR compliant and never share your data. You maintain full control.', time: '4:23 PM' }
-    ],
-    // Option 2: Position from the left but ensure right margin
-    position: { bottom: '8%', left: '3%' },
-    delay: 4000
-  }
-];
+const ChatBubble = ({ message, isAi, isTyping = false }: ChatBubbleProps) => (
+  <div className={`flex items-start gap-2 mb-3 ${isAi ? '' : 'flex-row-reverse'}`}>
+    <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+      isAi 
+        ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+        : 'bg-gradient-to-r from-gray-600 to-gray-700'
+    }`}>
+      {isAi ? <Bot className="w-3 h-3 text-white" /> : <User className="w-3 h-3 text-white" />}
+    </div>
+    <div className={`max-w-[200px] px-3 py-2 rounded-xl text-xs ${
+      isAi 
+        ? 'bg-white/10 backdrop-blur-sm border border-white/20 text-white' 
+        : 'bg-blue-500 text-white'
+    } ${isAi ? 'rounded-bl-sm' : 'rounded-br-sm'}`}>
+      {isTyping ? (
+        <div className="flex items-center gap-1">
+          <div className="w-1 h-1 bg-white/60 rounded-full animate-bounce"></div>
+          <div className="w-1 h-1 bg-white/60 rounded-full animate-bounce delay-100"></div>
+          <div className="w-1 h-1 bg-white/60 rounded-full animate-bounce delay-200"></div>
+        </div>
+      ) : (
+        <>
+          <p className="leading-relaxed">{message.text}</p>
+          <p className="text-[10px] opacity-60 mt-1">{message.time}</p>
+        </>
+      )}
+    </div>
+  </div>
+);
 
-// And update the AnimatedChatWindow component to handle right margin:
 const AnimatedChatWindow = ({ conversation, delay }: AnimatedChatWindowProps) => {
   const [visibleMessages, setVisibleMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -96,10 +120,9 @@ const AnimatedChatWindow = ({ conversation, delay }: AnimatedChatWindowProps) =>
 
   return (
     <div 
-      className="absolute w-64 bg-gray-900/90 backdrop-blur-md rounded-xl border border-white/20 p-3 shadow-xl animate-fade-in-up hidden xl:block mr-8"
+      className="absolute w-64 bg-gray-900/90 backdrop-blur-md rounded-xl border border-white/20 p-3 shadow-xl animate-fade-in-up hidden xl:block"
       style={conversation.position}
     >
-      {/* Rest of the component remains the same */}
       {/* Chat Header */}
       <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <div className="flex items-center gap-2">

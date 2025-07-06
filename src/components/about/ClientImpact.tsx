@@ -45,7 +45,7 @@ const ClientImpact: React.FC<ClientImpactProps> = ({ caseStudies, testimonials }
 
               {/* Results */}
               <div className="grid grid-cols-3 gap-4 mb-6">
-                {caseStudy.results.map((result: { metric: string; label: string }, index: number) => (
+                {caseStudy.results.map((result, index) => (
                   <div key={index} className="text-center p-3 bg-blue-500/10 rounded-lg">
                     <div className="text-lg font-bold text-blue-400">{result.metric}</div>
                     <div className="text-xs text-slate-400">{result.label}</div>
@@ -54,14 +54,16 @@ const ClientImpact: React.FC<ClientImpactProps> = ({ caseStudies, testimonials }
               </div>
 
               {/* Testimonial */}
-              <div className="border-l-4 border-blue-500 pl-4">
-                <p className="text-slate-300 text-sm italic mb-2">
-                  "{caseStudy.testimonial.quote}"
-                </p>
-                <div className="text-slate-400 text-xs font-medium">
-                  — {caseStudy.testimonial.author}
+              {caseStudy.testimonial && (
+                <div className="border-l-4 border-blue-500 pl-4">
+                  <p className="text-slate-300 text-sm italic mb-2">
+                    "{caseStudy.testimonial.quote}"
+                  </p>
+                  <div className="text-slate-400 text-xs font-medium">
+                    — {caseStudy.testimonial.author}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           ))}
         </div>

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react'; // Removed ChevronDown
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  // Removed isServicesOpen state
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -13,7 +13,7 @@ export default function Header() {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services', hasDropdown: true },
+    { name: 'Services', path: '/services' }, // Removed hasDropdown: true
     { name: 'Pricing', path: '/pricing' },
     { name: 'FAQ', path: '/faq' },
     { name: 'Contact', path: '/contact' },
@@ -34,68 +34,17 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <div key={item.name} className="relative">
-                {item.hasDropdown ? (
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setIsServicesOpen(true)}
-                    onMouseLeave={() => setIsServicesOpen(false)}
-                  >
-                    <Link
-                      to={item.path}
-                      className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                        isActive(item.path)
-                          ? 'text-blue-400 bg-blue-500/10'
-                          : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                      }`}
-                    >
-                      <span>{item.name}</span>
-                      <ChevronDown className="w-4 h-4" />
-                    </Link>
-                    
-                    {/* Services Dropdown */}
-                    {isServicesOpen && (
-                      <div className="absolute top-full left-0 mt-1 w-64 bg-slate-900 border border-slate-700 rounded-lg shadow-xl py-2">
-                        <Link
-                          to="/services"
-                          className="block px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-800"
-                        >
-                          All Services
-                        </Link>
-                        <Link
-                          to="/services#ai-consulting"
-                          className="block px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-800"
-                        >
-                          AI Consulting
-                        </Link>
-                        <Link
-                          to="/services#custom-development"
-                          className="block px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-800"
-                        >
-                          Custom Development
-                        </Link>
-                        <Link
-                          to="/services#implementation"
-                          className="block px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-800"
-                        >
-                          Implementation
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    to={item.path}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive(item.path)
-                        ? 'text-blue-400 bg-blue-500/10'
-                        : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                )}
-              </div>
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isActive(item.path)
+                    ? 'text-blue-400 bg-blue-500/10'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                }`}
+              >
+                {item.name}
+              </Link>
             ))}
             
             <Link

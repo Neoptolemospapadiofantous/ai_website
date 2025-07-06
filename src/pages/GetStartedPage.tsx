@@ -7,293 +7,328 @@ import {
   Users, 
   Shield, 
   Star,
-  MessageSquare,
-  Brain,
-  Target,
+  Zap,
   Settings,
-  Sparkles,
-  Phone,
+  Rocket,
   Mail,
-  Calendar,
-  Lock,
-  Database,
-  Eye
+  Phone,
+  Building
 } from 'lucide-react';
 
-interface SecurityFeature {
-  title: string;
-  description: string;
-  icon: typeof Shield | typeof Lock | typeof Database | typeof Eye;
+// Form data interface for type safety
+interface FormData {
+  name: string;
+  email: string;
+  company: string;
+  phone: string;
+  plan: string;
+  message: string;
+}
+
+// Form validation errors interface
+interface FormErrors {
+  name?: string;
+  email?: string;
+  company?: string;
+  plan?: string;
 }
 
 const GetStartedPage = () => {
+  // Component state management
   const [isVisible, setIsVisible] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('professional');
-  const [formData, setFormData] = useState({
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  
+  // Form state and validation
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     company: '',
     phone: '',
-    useCase: '',
+    plan: 'professional',
     message: ''
   });
+  
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
+  // Trigger animations on component mount
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const securityFeatures: SecurityFeature[] = [
-    {
-      title: 'Enterprise-Grade Encryption',
-      description: 'End-to-end AES-256 encryption protects all data in transit and at rest, ensuring your sensitive information remains secure at all times.',
-      icon: Shield
-    },
-    {
-      title: 'Advanced Access Controls',
-      description: 'Multi-factor authentication, role-based permissions, and granular access controls ensure only authorized personnel can access your systems.',
-      icon: Lock
-    },
-    {
-      title: 'Secure Data Storage',
-      description: 'SOC 2 Type II compliant data centers with redundant backups, disaster recovery, and 99.9% uptime guarantee for maximum reliability.',
-      icon: Database
-    },
-    {
-      title: 'Privacy Protection',
-      description: 'GDPR, CCPA, and HIPAA compliant data handling with comprehensive audit trails and privacy controls to protect customer information.',
-      icon: Eye
-    }
-  ];
-
+  // Pricing plans configuration
   const plans = [
     {
       id: 'starter',
       name: 'Starter',
       price: '$99',
       period: '/month',
-      description: 'Perfect for small businesses getting started with AI',
+      description: 'Perfect for small businesses',
       features: [
-        'Up to 1,000 conversations/month',
-        'Basic AI agent setup',
+        '1,000 conversations/month',
+        'Basic AI setup',
         'Email support',
-        'Standard integrations',
-        '24/7 availability'
+        'Standard integrations'
       ],
-      popular: false
+      popular: false,
+      cta: 'Start Free Trial'
     },
     {
       id: 'professional',
       name: 'Professional',
       price: '$299',
       period: '/month',
-      description: 'Ideal for growing businesses with higher volume needs',
+      description: 'Ideal for growing businesses',
       features: [
-        'Up to 10,000 conversations/month',
-        'Advanced AI customization',
+        '10,000 conversations/month',
+        'Advanced customization',
         'Priority support',
         'Custom integrations',
-        'Analytics dashboard',
-        'Multi-language support'
+        'Analytics dashboard'
       ],
-      popular: true
+      popular: true,
+      cta: 'Get Started Now'
     },
     {
       id: 'enterprise',
       name: 'Enterprise',
       price: 'Custom',
       period: '',
-      description: 'Tailored solutions for large organizations',
+      description: 'For large organizations',
       features: [
         'Unlimited conversations',
-        'Dedicated AI specialists',
-        '24/7 phone support',
+        'Dedicated support',
         'Custom development',
         'Advanced security',
         'SLA guarantees'
       ],
-      popular: false
+      popular: false,
+      cta: 'Contact Sales'
     }
   ];
 
+  // Process steps configuration
   const steps = [
     {
       number: 1,
       title: 'Choose Your Plan',
-      description: 'Select the plan that best fits your business needs and volume requirements.',
-      icon: Target
+      description: 'Select the perfect plan for your business needs and budget.',
+      icon: Star
     },
     {
       number: 2,
-      title: 'Setup & Configuration',
-      description: 'Our team will configure your AI agent and integrate it with your existing systems.',
+      title: 'Quick Setup',
+      description: 'Our team configures your AI agent in under 24 hours.',
       icon: Settings
     },
     {
       number: 3,
-      title: 'Training & Testing',
-      description: 'We train your AI agent on your specific use cases and conduct thorough testing.',
-      icon: Brain
-    },
-    {
-      number: 4,
       title: 'Go Live',
-      description: 'Launch your AI agent and start transforming your customer interactions.',
-      icon: Sparkles
+      description: 'Start transforming customer interactions immediately.',
+      icon: Rocket
     }
   ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  // Form validation logic
+  const validateForm = (): boolean => {
+    const errors: FormErrors = {};
+    
+    // Required field validation
+    if (!formData.name.trim()) {
+      errors.name = 'Name is required';
+    }
+    
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    
+    if (!formData.company.trim()) {
+      errors.company = 'Company name is required';
+    }
+    
+    if (!formData.plan) {
+      errors.plan = 'Please select a plan';
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear specific field error when user starts typing
+    if (formErrors[name as keyof FormErrors]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate API call - replace with actual endpoint
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      console.log('Form submitted:', formData);
+      setSubmitSuccess(true);
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        phone: '',
+        plan: selectedPlan,
+        message: ''
+      });
+      
+    } catch (error) {
+      console.error('Submission error:', error);
+      // Handle error state here
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handle plan selection
+  const handlePlanSelect = (planId: string) => {
+    setSelectedPlan(planId);
+    setFormData(prev => ({
+      ...prev,
+      plan: planId
+    }));
+  };
+
+  // Scroll to form section
+  const scrollToForm = () => {
+    const formSection = document.getElementById('contact-form');
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
     <>
       <Helmet>
-        <title>Get Started - Deploy Your AI Agent Today | aisona.tech</title>
-        <meta name="description" content="Start your AI transformation journey today. Choose your plan, get expert setup, and deploy intelligent AI agents in just days. Free consultation available." />
-        <meta name="keywords" content="get started, AI agent setup, pricing plans, AI deployment, customer service automation" />
+        <title>Get Started - Transform Your Business with AI | aisona.tech</title>
+        <meta name="description" content="Start your AI transformation today. Choose your plan and deploy intelligent AI agents in minutes. Free setup included." />
+        <meta name="keywords" content="AI agents, get started, pricing, customer service automation, business transformation" />
         <link rel="canonical" href="https://aisona.tech/get-started" />
-        
-        <meta property="og:title" content="Get Started with AI Agents - aisona.tech" />
-        <meta property="og:description" content="Transform your customer service with AI agents. Choose your plan and get started today." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://aisona.tech/get-started" />
       </Helmet>
 
-      <div className="min-h-screen bg-slate-950 text-white pt-20">
-        {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+      <div className="min-h-screen bg-slate-950 text-white">
+        {/* Hero Section - Conversion-focused with clear value proposition */}
+        <section className="pt-32 pb-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+          {/* Background effects */}
           <div className="absolute inset-0">
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
-                <Sparkles className="w-4 h-4 text-yellow-400" />
-                <span className="text-sm text-slate-300">Get Started Today</span>
+          <div className="max-w-6xl mx-auto px-4 relative z-10">
+            <div className={`text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+              {/* Trust indicator */}
+              <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-8 backdrop-blur-sm">
+                <Shield className="w-4 h-4 text-green-400" />
+                <span className="text-sm text-slate-300">Trusted by 500+ Companies</span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              {/* Main headline - conversion-focused */}
+              <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
                 <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  Deploy Your AI Agent
+                  Deploy AI Agents
                 </span>
                 <br />
-                <span className="text-white">In Just Days</span>
+                <span className="text-white">In 24 Hours</span>
               </h1>
               
+              {/* Value proposition */}
               <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-                Transform your customer service with intelligent AI agents. Choose your plan, 
-                get expert setup, and start seeing results immediately.
+                Transform your customer service with intelligent AI agents. 
+                <strong className="text-white"> Reduce costs by 90%</strong> and 
+                <strong className="text-white"> increase satisfaction by 40%</strong>.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  Schedule Free Consultation
+              {/* Primary CTA */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                <button 
+                  onClick={scrollToForm}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 shadow-lg"
+                >
+                  Get Started Free
+                  <ArrowRight className="w-5 h-5" />
                 </button>
-                <button className="border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-slate-800/50">
-                  View Demo
+                <button 
+                  onClick={scrollToForm}
+                  className="border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-slate-800/50"
+                >
+                  View Pricing
                 </button>
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Security & Trust Section */}
-        <section className="py-24 bg-slate-900/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2 mb-6">
-                <Shield className="w-5 h-5 text-green-400" />
-                <span className="text-sm text-green-400 font-medium">Enterprise Security</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-                  Security & Trust
-                </span>
-              </h2>
-              <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-                Your data security is our top priority. We implement industry-leading security measures 
-                to protect your business and customer information.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {securityFeatures.map((feature, index) => {
-                const IconComponent = feature.icon;
-                return (
-                  <div
-                    key={index}
-                    className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:scale-105 transition-all duration-300 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 ${
-                      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ animationDelay: `${index * 150}ms` }}
-                  >
-                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center mb-4">
-                      <IconComponent className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                    <p className="text-slate-300 leading-relaxed text-sm">{feature.description}</p>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Trust Badges */}
-            <div className="mt-16 text-center">
-              <div className="inline-flex items-center gap-8 bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl px-8 py-6">
+              {/* Key benefits - social proof */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-400 mb-1">SOC 2</div>
-                  <div className="text-xs text-slate-400">Type II Compliant</div>
+                  <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-3" />
+                  <div className="text-2xl font-bold text-white mb-1">24hrs</div>
+                  <div className="text-sm text-slate-400">Setup Time</div>
                 </div>
-                <div className="w-px h-8 bg-slate-700"></div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">GDPR</div>
-                  <div className="text-xs text-slate-400">Compliant</div>
+                  <Users className="w-8 h-8 text-blue-400 mx-auto mb-3" />
+                  <div className="text-2xl font-bold text-white mb-1">500+</div>
+                  <div className="text-sm text-slate-400">Happy Clients</div>
                 </div>
-                <div className="w-px h-8 bg-slate-700"></div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-400 mb-1">HIPAA</div>
-                  <div className="text-xs text-slate-400">Ready</div>
+                  <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-3" />
+                  <div className="text-2xl font-bold text-white mb-1">90%</div>
+                  <div className="text-sm text-slate-400">Cost Reduction</div>
                 </div>
-                <div className="w-px h-8 bg-slate-700"></div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400 mb-1">99.9%</div>
-                  <div className="text-xs text-slate-400">Uptime SLA</div>
+                  <Star className="w-8 h-8 text-purple-400 mx-auto mb-3" />
+                  <div className="text-2xl font-bold text-white mb-1">4.9/5</div>
+                  <div className="text-sm text-slate-400">Client Rating</div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* How It Works - Simple 3-step process */}
+        <section className="py-20 bg-slate-900/30">
+          <div className="max-w-6xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">How It Works</h2>
               <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-                Our proven 4-step process gets you from signup to success in record time
+                Get your AI agent up and running in three simple steps
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-3 gap-8">
               {steps.map((step, index) => {
                 const IconComponent = step.icon;
                 return (
                   <div
                     key={step.number}
-                    className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                    className={`text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                     style={{ animationDelay: `${index * 200}ms` }}
                   >
                     <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-6">
@@ -309,29 +344,29 @@ const GetStartedPage = () => {
           </div>
         </section>
 
-        {/* Pricing Plans */}
-        <section className="py-24 bg-slate-900/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Pricing Section - Clear plan comparison */}
+        <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
+          <div className="max-w-6xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">Choose Your Plan</h2>
               <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-                Flexible pricing options designed to scale with your business needs
+                Transparent pricing with no hidden fees. Start free, scale as you grow.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {plans.map((plan, index) => (
                 <div
                   key={plan.id}
                   className={`relative bg-slate-900/50 backdrop-blur-sm border rounded-2xl p-8 transition-all duration-300 hover:scale-105 cursor-pointer ${
                     plan.popular 
-                      ? 'border-blue-500 bg-gradient-to-b from-blue-500/10 to-purple-500/10' 
+                      ? 'border-blue-500 bg-gradient-to-b from-blue-500/10 to-purple-500/10 scale-105' 
                       : 'border-slate-700 hover:border-slate-600'
                   } ${selectedPlan === plan.id ? 'ring-2 ring-blue-500' : ''} ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    isVisible ? 'animate-fade-in-up' : 'opacity-0'
                   }`}
                   style={{ animationDelay: `${index * 200}ms` }}
-                  onClick={() => setSelectedPlan(plan.id)}
+                  onClick={() => handlePlanSelect(plan.id)}
                 >
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -359,12 +394,15 @@ const GetStartedPage = () => {
                     ))}
                   </ul>
 
-                  <button className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 ${
-                    plan.popular
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white'
-                      : 'border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white hover:bg-slate-800/50'
-                  }`}>
-                    {plan.id === 'enterprise' ? 'Contact Sales' : 'Get Started'}
+                  <button 
+                    onClick={scrollToForm}
+                    className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 ${
+                      plan.popular
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white'
+                        : 'border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white hover:bg-slate-800/50'
+                    }`}
+                  >
+                    {plan.cta}
                   </button>
                 </div>
               ))}
@@ -372,187 +410,221 @@ const GetStartedPage = () => {
           </div>
         </section>
 
-        {/* Contact Form */}
-        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
+        {/* Contact Form Section - Conversion-optimized */}
+        <section id="contact-form" className="py-20 bg-slate-900/30">
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-6 text-white">Ready to Get Started?</h2>
               <p className="text-xl text-slate-300">
-                Fill out the form below and our team will contact you within 24 hours
+                Fill out the form below and we'll have your AI agent ready in 24 hours
               </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Contact Form */}
-              <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
-                        placeholder="john@company.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="company" className="block text-sm font-medium text-slate-300 mb-2">
-                        Company Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        required
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
-                        placeholder="Your Company"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
-                        placeholder="+1 (555) 123-4567"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="useCase" className="block text-sm font-medium text-slate-300 mb-2">
-                      Primary Use Case *
-                    </label>
-                    <select
-                      id="useCase"
-                      name="useCase"
-                      required
-                      value={formData.useCase}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
+              <div className={`${isVisible ? 'animate-slide-in-left' : 'opacity-0'}`}>
+                {submitSuccess ? (
+                  // Success message
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center">
+                    <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
+                    <h3 className="text-2xl font-bold text-white mb-4">Thank You!</h3>
+                    <p className="text-slate-300 mb-6">
+                      We've received your request and will contact you within 24 hours to get your AI agent set up.
+                    </p>
+                    <button
+                      onClick={() => setSubmitSuccess(false)}
+                      className="text-blue-400 hover:text-blue-300 font-medium"
                     >
-                      <option value="">Select your primary use case</option>
-                      <option value="customer-support">Customer Support Automation</option>
-                      <option value="lead-generation">Lead Generation & Qualification</option>
-                      <option value="sales-assistance">Sales Assistance</option>
-                      <option value="internal-support">Internal Employee Support</option>
-                      <option value="other">Other</option>
-                    </select>
+                      Submit Another Request
+                    </button>
                   </div>
+                ) : (
+                  // Contact form
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
+                          Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          className={`w-full px-4 py-3 bg-slate-800 border rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors ${
+                            formErrors.name ? 'border-red-500' : 'border-slate-700'
+                          }`}
+                          placeholder="John Doe"
+                        />
+                        {formErrors.name && (
+                          <p className="text-red-400 text-sm mt-1">{formErrors.name}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+                          Email Address *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className={`w-full px-4 py-3 bg-slate-800 border rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors ${
+                            formErrors.email ? 'border-red-500' : 'border-slate-700'
+                          }`}
+                          placeholder="john@company.com"
+                        />
+                        {formErrors.email && (
+                          <p className="text-red-400 text-sm mt-1">{formErrors.email}</p>
+                        )}
+                      </div>
+                    </div>
 
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">
-                      Additional Information
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors resize-none"
-                      placeholder="Tell us more about your specific needs and requirements..."
-                    />
-                  </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label htmlFor="company" className="block text-sm font-medium text-slate-300 mb-2">
+                          Company Name *
+                        </label>
+                        <input
+                          type="text"
+                          id="company"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleInputChange}
+                          className={`w-full px-4 py-3 bg-slate-800 border rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors ${
+                            formErrors.company ? 'border-red-500' : 'border-slate-700'
+                          }`}
+                          placeholder="Your Company"
+                        />
+                        {formErrors.company && (
+                          <p className="text-red-400 text-sm mt-1">{formErrors.company}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-2">
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
+                          placeholder="+1 (555) 123-4567"
+                        />
+                      </div>
+                    </div>
 
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
-                  >
-                    Submit Request
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-                </form>
+                    <div>
+                      <label htmlFor="plan" className="block text-sm font-medium text-slate-300 mb-2">
+                        Selected Plan *
+                      </label>
+                      <select
+                        id="plan"
+                        name="plan"
+                        value={formData.plan}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 bg-slate-800 border rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors ${
+                          formErrors.plan ? 'border-red-500' : 'border-slate-700'
+                        }`}
+                      >
+                        <option value="starter">Starter - $99/month</option>
+                        <option value="professional">Professional - $299/month</option>
+                        <option value="enterprise">Enterprise - Custom pricing</option>
+                      </select>
+                      {formErrors.plan && (
+                        <p className="text-red-400 text-sm mt-1">{formErrors.plan}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">
+                        Additional Requirements
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={4}
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                        placeholder="Tell us about your specific needs..."
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:from-slate-600 disabled:to-slate-600 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 disabled:hover:scale-100 flex items-center justify-center gap-2"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          Get Started Now
+                          <ArrowRight className="w-5 h-5" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
               </div>
 
               {/* Contact Information */}
-              <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
+              <div className={`${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}>
                 <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8">
-                  <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
+                  <h3 className="text-2xl font-bold text-white mb-6">Why Choose Us?</h3>
                   
-                  <div className="space-y-6">
+                  <div className="space-y-6 mb-8">
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Phone className="w-6 h-6 text-white" />
+                        <Clock className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h4 className="text-lg font-semibold text-white mb-1">Phone</h4>
-                        <p className="text-slate-300">+1 (555) 012-3456</p>
-                        <p className="text-sm text-slate-400">Mon-Fri 9AM-6PM PST</p>
+                        <h4 className="text-lg font-semibold text-white mb-1">24-Hour Setup</h4>
+                        <p className="text-slate-300">Your AI agent will be ready and deployed within 24 hours of signup.</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Mail className="w-6 h-6 text-white" />
+                        <Shield className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h4 className="text-lg font-semibold text-white mb-1">Email</h4>
-                        <p className="text-slate-300">hello@aisona.tech</p>
-                        <p className="text-sm text-slate-400">We respond within 24 hours</p>
+                        <h4 className="text-lg font-semibold text-white mb-1">Enterprise Security</h4>
+                        <p className="text-slate-300">Bank-grade security with SOC 2 compliance and data encryption.</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <MessageSquare className="w-6 h-6 text-white" />
+                        <Users className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h4 className="text-lg font-semibold text-white mb-1">Live Chat</h4>
-                        <p className="text-slate-300">Available on our website</p>
-                        <p className="text-sm text-slate-400">Instant responses during business hours</p>
+                        <h4 className="text-lg font-semibold text-white mb-1">Expert Support</h4>
+                        <p className="text-slate-300">Dedicated success manager and 24/7 technical support included.</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-8 pt-8 border-t border-slate-700">
-                    <h4 className="text-lg font-semibold text-white mb-4">What Happens Next?</h4>
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-3">
-                        <Clock className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-slate-300 text-sm">We'll contact you within 24 hours</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Users className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-slate-300 text-sm">Schedule a discovery call with our experts</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Star className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-slate-300 text-sm">Receive a custom proposal and demo</span>
-                      </li>
-                    </ul>
+                  <div className="border-t border-slate-700 pt-6">
+                    <h4 className="text-lg font-semibold text-white mb-4">Need to Talk?</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <Phone className="w-5 h-5 text-blue-400" />
+                        <span className="text-slate-300">+1 (555) 012-3456</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Mail className="w-5 h-5 text-blue-400" />
+                        <span className="text-slate-300">hello@aisona.tech</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

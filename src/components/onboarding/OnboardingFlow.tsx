@@ -19,7 +19,6 @@ import {
   BarChart3,
   Users,
   Settings,
-  HelpCircle
 } from 'lucide-react';
 
 interface OnboardingStep {

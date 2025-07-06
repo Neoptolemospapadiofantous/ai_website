@@ -14,8 +14,17 @@ import {
   Sparkles,
   Phone,
   Mail,
-  Calendar
+  Calendar,
+  Lock,
+  Database,
+  Eye
 } from 'lucide-react';
+
+interface SecurityFeature {
+  title: string;
+  description: string;
+  icon: typeof Shield | typeof Lock | typeof Database | typeof Eye;
+}
 
 const GetStartedPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,6 +41,29 @@ const GetStartedPage = () => {
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const securityFeatures: SecurityFeature[] = [
+    {
+      title: 'Enterprise-Grade Encryption',
+      description: 'End-to-end AES-256 encryption protects all data in transit and at rest, ensuring your sensitive information remains secure at all times.',
+      icon: Shield
+    },
+    {
+      title: 'Advanced Access Controls',
+      description: 'Multi-factor authentication, role-based permissions, and granular access controls ensure only authorized personnel can access your systems.',
+      icon: Lock
+    },
+    {
+      title: 'Secure Data Storage',
+      description: 'SOC 2 Type II compliant data centers with redundant backups, disaster recovery, and 99.9% uptime guarantee for maximum reliability.',
+      icon: Database
+    },
+    {
+      title: 'Privacy Protection',
+      description: 'GDPR, CCPA, and HIPAA compliant data handling with comprehensive audit trails and privacy controls to protect customer information.',
+      icon: Eye
+    }
+  ];
 
   const plans = [
     {
@@ -141,12 +173,12 @@ const GetStartedPage = () => {
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 relative z-10">
-            <div className={`text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
                 <Sparkles className="w-4 h-4 text-yellow-400" />
                 <span className="text-sm text-slate-300">Get Started Today</span>
@@ -178,9 +210,76 @@ const GetStartedPage = () => {
           </div>
         </section>
 
-        {/* How It Works */}
+        {/* Security & Trust Section */}
         <section className="py-24 bg-slate-900/30">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2 mb-6">
+                <Shield className="w-5 h-5 text-green-400" />
+                <span className="text-sm text-green-400 font-medium">Enterprise Security</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                  Security & Trust
+                </span>
+              </h2>
+              <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+                Your data security is our top priority. We implement industry-leading security measures 
+                to protect your business and customer information.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {securityFeatures.map((feature, index) => {
+                const IconComponent = feature.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:scale-105 transition-all duration-300 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 ${
+                      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ animationDelay: `${index * 150}ms` }}
+                  >
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center mb-4">
+                      <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                    <p className="text-slate-300 leading-relaxed text-sm">{feature.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Trust Badges */}
+            <div className="mt-16 text-center">
+              <div className="inline-flex items-center gap-8 bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl px-8 py-6">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-400 mb-1">SOC 2</div>
+                  <div className="text-xs text-slate-400">Type II Compliant</div>
+                </div>
+                <div className="w-px h-8 bg-slate-700"></div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400 mb-1">GDPR</div>
+                  <div className="text-xs text-slate-400">Compliant</div>
+                </div>
+                <div className="w-px h-8 bg-slate-700"></div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-400 mb-1">HIPAA</div>
+                  <div className="text-xs text-slate-400">Ready</div>
+                </div>
+                <div className="w-px h-8 bg-slate-700"></div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-400 mb-1">99.9%</div>
+                  <div className="text-xs text-slate-400">Uptime SLA</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works */}
+        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">How It Works</h2>
               <p className="text-xl text-slate-300 max-w-3xl mx-auto">
@@ -194,7 +293,7 @@ const GetStartedPage = () => {
                 return (
                   <div
                     key={step.number}
-                    className={`text-center ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                    className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                     style={{ animationDelay: `${index * 200}ms` }}
                   >
                     <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-6">
@@ -211,8 +310,8 @@ const GetStartedPage = () => {
         </section>
 
         {/* Pricing Plans */}
-        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-24 bg-slate-900/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">Choose Your Plan</h2>
               <p className="text-xl text-slate-300 max-w-3xl mx-auto">
@@ -229,7 +328,7 @@ const GetStartedPage = () => {
                       ? 'border-blue-500 bg-gradient-to-b from-blue-500/10 to-purple-500/10' 
                       : 'border-slate-700 hover:border-slate-600'
                   } ${selectedPlan === plan.id ? 'ring-2 ring-blue-500' : ''} ${
-                    isVisible ? 'animate-fade-in-up' : 'opacity-0'
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                   }`}
                   style={{ animationDelay: `${index * 200}ms` }}
                   onClick={() => setSelectedPlan(plan.id)}
@@ -274,8 +373,8 @@ const GetStartedPage = () => {
         </section>
 
         {/* Contact Form */}
-        <section className="py-24 bg-slate-900/30">
-          <div className="max-w-4xl mx-auto px-4">
+        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">Ready to Get Started?</h2>
               <p className="text-xl text-slate-300">
@@ -285,7 +384,7 @@ const GetStartedPage = () => {
 
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Contact Form */}
-              <div className={`${isVisible ? 'animate-slide-in-left' : 'opacity-0'}`}>
+              <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
@@ -399,7 +498,7 @@ const GetStartedPage = () => {
               </div>
 
               {/* Contact Information */}
-              <div className={`${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}>
+              <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
                 <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8">
                   <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
                   

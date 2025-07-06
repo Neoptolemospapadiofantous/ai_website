@@ -1,6 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Headphones, Zap, TrendingUp, Clock, Users, Shield, CheckCircle, ArrowRight, Star, Quote, BarChart3, Target, MessageSquare, Brain } from 'lucide-react';
+import { 
+  Headphones, 
+  Zap, 
+  Users, 
+  TrendingUp, 
+  Clock, 
+  Shield, 
+  CheckCircle, 
+  ArrowRight, 
+  Star, 
+  Quote, 
+  BarChart3, 
+  Target, 
+  MessageSquare, 
+  Brain,
+  Settings,
+  Workflow,
+  UserCheck,
+  MessageCircle
+} from 'lucide-react';
+
+interface AutomationFeature {
+  title: string;
+  description: string;
+  benefits: string[];
+}
+
+interface TeamFeature {
+  title: string;
+  description: string;
+  capabilities: string[];
+}
 
 const SupportAutomationPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -16,120 +47,153 @@ const SupportAutomationPage = () => {
     { metric: "24/7", label: "Availability", icon: Shield }
   ];
 
-  const automationFeatures = [
+  const automationFeatures: AutomationFeature[] = [
     {
-      category: "Intelligent Routing",
-      description: "Smart ticket distribution based on complexity, urgency, and agent expertise",
-      features: [
-        "AI-powered priority detection",
-        "Skill-based agent matching",
-        "Workload balancing",
-        "Escalation path optimization"
+      title: 'Lightning-Fast Response Times',
+      description: 'Automated systems respond to customer inquiries instantly, eliminating wait times and improving satisfaction scores.',
+      benefits: [
+        'Sub-second response times for common queries',
+        'Instant acknowledgment of all incoming requests',
+        'Automated priority routing based on urgency',
+        'Real-time status updates for customers'
       ]
     },
     {
-      category: "Auto-Resolution",
-      description: "Automatically resolve common issues without human intervention",
-      features: [
-        "Knowledge base integration",
-        "Solution recommendation engine",
-        "Self-service portal automation",
-        "Proactive issue prevention"
+      title: 'Intelligent Issue Resolution',
+      description: 'AI-powered automation identifies and resolves common issues without human intervention, freeing up agents for complex problems.',
+      benefits: [
+        'Automatic resolution of 70% of common issues',
+        'Smart categorization and tagging of tickets',
+        'Proactive problem identification and prevention',
+        'Continuous learning from resolution patterns'
       ]
     },
     {
-      category: "Workflow Automation",
-      description: "Streamline repetitive tasks and standardize processes",
-      features: [
-        "Custom workflow builder",
-        "Automated status updates",
-        "SLA monitoring and alerts",
-        "Performance analytics"
+      title: 'Workflow Optimization',
+      description: 'Streamlined processes that automatically handle routine tasks, approvals, and escalations with precision and consistency.',
+      benefits: [
+        'Automated approval workflows for standard requests',
+        'Smart escalation based on complexity and SLA',
+        'Bulk processing of similar requests',
+        'Performance tracking and optimization insights'
+      ]
+    }
+  ];
+
+  const teamFeatures: TeamFeature[] = [
+    {
+      title: 'Collaborative Workspaces',
+      description: 'Unified platforms where team members can collaborate on complex cases, share knowledge, and coordinate responses effectively.',
+      capabilities: [
+        'Real-time collaboration on active tickets',
+        'Shared knowledge base with instant access',
+        'Team chat integration for quick consultations',
+        'Cross-department coordination tools'
+      ]
+    },
+    {
+      title: 'Agent Empowerment Tools',
+      description: 'Advanced tools that enhance agent productivity by providing instant access to customer history, suggested responses, and expert guidance.',
+      capabilities: [
+        'AI-powered response suggestions',
+        'Complete customer interaction history',
+        'Expert knowledge recommendations',
+        'Performance analytics and coaching insights'
+      ]
+    },
+    {
+      title: 'Team Performance Analytics',
+      description: 'Comprehensive analytics that help managers optimize team performance, identify training needs, and improve overall efficiency.',
+      capabilities: [
+        'Individual and team performance metrics',
+        'Workload distribution and balancing',
+        'Skill gap identification and training recommendations',
+        'Customer satisfaction correlation analysis'
       ]
     }
   ];
 
   const industryApplications = [
     {
-      industry: "SaaS Companies",
-      challenge: "High volume of technical support requests overwhelming support teams",
-      solution: "Automated troubleshooting guides and intelligent ticket routing",
-      results: "70% reduction in Level 1 tickets, 50% faster resolution times"
+      industry: 'SaaS Companies',
+      challenge: 'High volume of technical support requests overwhelming support teams',
+      solution: 'Automated troubleshooting guides and intelligent ticket routing',
+      results: '70% reduction in Level 1 tickets, 50% faster resolution times'
     },
     {
-      industry: "E-commerce",
-      challenge: "Order inquiries and return requests consuming agent time",
-      solution: "Automated order status updates and return processing workflows",
-      results: "80% of order inquiries resolved automatically, 40% cost savings"
+      industry: 'E-commerce',
+      challenge: 'Order inquiries and return requests consuming agent time',
+      solution: 'Automated order status updates and return processing workflows',
+      results: '80% of order inquiries resolved automatically, 40% cost savings'
     },
     {
-      industry: "Financial Services",
-      challenge: "Compliance requirements and complex customer inquiries",
-      solution: "Automated compliance checks and intelligent case management",
-      results: "100% compliance adherence, 45% improvement in case resolution"
+      industry: 'Financial Services',
+      challenge: 'Compliance requirements and complex customer inquiries',
+      solution: 'Automated compliance checks and intelligent case management',
+      results: '100% compliance adherence, 45% improvement in case resolution'
     }
   ];
 
   const testimonials = [
     {
-      name: "Jennifer Martinez",
-      role: "Head of Customer Success",
-      company: "CloudTech Solutions",
-      content: "Support automation transformed our operations. We now handle 3x more tickets with the same team size, and our customers are happier than ever.",
+      name: 'Jennifer Martinez',
+      role: 'Head of Customer Success',
+      company: 'CloudTech Solutions',
+      content: 'Support automation transformed our operations. We now handle 3x more tickets with the same team size, and our customers are happier than ever.',
       rating: 5
     },
     {
-      name: "Robert Kim",
-      role: "VP of Operations",
-      company: "RetailMax",
-      content: "The ROI was immediate. Within 30 days, we saw a 60% reduction in support costs while improving our customer satisfaction scores.",
+      name: 'Robert Kim',
+      role: 'VP of Operations',
+      company: 'RetailMax',
+      content: 'The ROI was immediate. Within 30 days, we saw a 60% reduction in support costs while improving our customer satisfaction scores.',
       rating: 5
     }
   ];
 
   const implementationPhases = [
     {
-      phase: "Assessment",
-      duration: "1 week",
-      description: "Analyze current support processes and identify automation opportunities",
-      deliverables: ["Process audit report", "Automation roadmap", "ROI projections"]
+      phase: 'Assessment',
+      duration: '1 week',
+      description: 'Analyze current support processes and identify automation opportunities',
+      deliverables: ['Process audit report', 'Automation roadmap', 'ROI projections']
     },
     {
-      phase: "Configuration",
-      duration: "2-3 weeks",
-      description: "Set up automation rules, workflows, and integration with existing systems",
-      deliverables: ["Configured workflows", "Integration setup", "Testing environment"]
+      phase: 'Configuration',
+      duration: '2-3 weeks',
+      description: 'Set up automation rules, workflows, and integration with existing systems',
+      deliverables: ['Configured workflows', 'Integration setup', 'Testing environment']
     },
     {
-      phase: "Training & Launch",
-      duration: "1 week",
-      description: "Train your team and gradually roll out automation features",
-      deliverables: ["Team training", "Go-live support", "Performance monitoring"]
+      phase: 'Training & Launch',
+      duration: '1 week',
+      description: 'Train your team and gradually roll out automation features',
+      deliverables: ['Team training', 'Go-live support', 'Performance monitoring']
     },
     {
-      phase: "Optimization",
-      duration: "Ongoing",
-      description: "Continuous monitoring and optimization based on performance data",
-      deliverables: ["Performance reports", "Optimization recommendations", "Feature updates"]
+      phase: 'Optimization',
+      duration: 'Ongoing',
+      description: 'Continuous monitoring and optimization based on performance data',
+      deliverables: ['Performance reports', 'Optimization recommendations', 'Feature updates']
     }
   ];
 
   const faqs = [
     {
-      question: "Will automation replace our support agents?",
-      answer: "No, automation enhances your agents' capabilities by handling routine tasks, allowing them to focus on complex issues that require human expertise and empathy."
+      question: 'Will automation replace our support agents?',
+      answer: 'No, automation enhances your agents\' capabilities by handling routine tasks, allowing them to focus on complex issues that require human expertise and empathy.'
     },
     {
-      question: "How long does it take to see results?",
-      answer: "Most clients see immediate improvements in response times and efficiency within the first week of implementation, with full ROI typically achieved within 2-3 months."
+      question: 'How long does it take to see results?',
+      answer: 'Most clients see immediate improvements in response times and efficiency within the first week of implementation, with full ROI typically achieved within 2-3 months.'
     },
     {
-      question: "Can the system integrate with our existing helpdesk?",
-      answer: "Yes, our platform integrates with all major helpdesk systems including Zendesk, Freshdesk, ServiceNow, and custom solutions through our API."
+      question: 'Can the system integrate with our existing helpdesk?',
+      answer: 'Yes, our platform integrates with all major helpdesk systems including Zendesk, Freshdesk, ServiceNow, and custom solutions through our API.'
     },
     {
-      question: "What happens if the automation makes a mistake?",
-      answer: "Our system includes multiple safeguards and human oversight checkpoints. All automated actions are logged and can be reviewed or reversed if needed."
+      question: 'What happens if the automation makes a mistake?',
+      answer: 'Our system includes multiple safeguards and human oversight checkpoints. All automated actions are logged and can be reviewed or reversed if needed.'
     }
   ];
 
@@ -151,12 +215,12 @@ const SupportAutomationPage = () => {
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse"></div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 relative z-10">
-            <div className={`text-center mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
                 <Headphones className="w-4 h-4 text-purple-400" />
                 <span className="text-sm text-slate-300">Support Automation</span>
@@ -203,118 +267,140 @@ const SupportAutomationPage = () => {
           </div>
         </section>
 
-        {/* Problem Statement */}
-        <section className="py-24 bg-slate-900/50">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <h2 className="text-4xl font-bold mb-6 text-white">
-                  Support Teams Are Drowning in Repetitive Tasks
-                </h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-red-400 rounded-full mt-3 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-2">Manual Ticket Routing</h3>
-                      <p className="text-slate-300">Agents waste time manually categorizing and routing tickets to appropriate teams</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-red-400 rounded-full mt-3 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-2">Repetitive Issue Resolution</h3>
-                      <p className="text-slate-300">Same questions answered repeatedly, consuming valuable agent time</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-red-400 rounded-full mt-3 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-2">Inconsistent Processes</h3>
-                      <p className="text-slate-300">Lack of standardized workflows leads to varying service quality</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 bg-red-400 rounded-full mt-3 flex-shrink-0"></div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-2">Reactive Support Model</h3>
-                      <p className="text-slate-300">Always playing catch-up instead of preventing issues proactively</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-8 border border-slate-700">
-                <h3 className="text-2xl font-bold text-white mb-6">The Hidden Costs</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-300">Agent Productivity Loss</span>
-                    <span className="text-2xl font-bold text-red-400">40%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-300">Repetitive Task Time</span>
-                    <span className="text-2xl font-bold text-red-400">60%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-300">Customer Wait Time</span>
-                    <span className="text-2xl font-bold text-red-400">4+ hours</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-300">Resolution Accuracy</span>
-                    <span className="text-2xl font-bold text-red-400">72%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Solution Features */}
-        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
-          <div className="max-w-7xl mx-auto px-4">
+        {/* Automation Features Section */}
+        <section className="py-24 bg-gradient-to-b from-slate-900 to-slate-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/20 rounded-full px-4 py-2 mb-6">
+                <Zap className="w-5 h-5 text-yellow-400" />
+                <span className="text-sm text-yellow-400 font-medium">Speed & Automation</span>
+              </div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  Comprehensive Automation Suite
+                <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                  Automation Features
                 </span>
               </h2>
               <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-                Our intelligent platform automates every aspect of customer support, 
-                from initial contact to resolution and follow-up.
+                Powerful automation capabilities that transform how your support team operates and delivers results.
               </p>
             </div>
 
             <div className="space-y-16">
               {automationFeatures.map((feature, index) => (
-                <div key={index} className="grid lg:grid-cols-2 gap-12 items-center">
+                <div
+                  key={index}
+                  className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-1000 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ animationDelay: `${index * 300}ms` }}
+                >
                   <div className={index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}>
-                    <h3 className="text-3xl font-bold text-white mb-4">{feature.category}</h3>
-                    <p className="text-lg text-slate-300 mb-8">{feature.description}</p>
-                    <ul className="space-y-3">
-                      {feature.features.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex items-start gap-3">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-bold text-white">{feature.title}</h3>
+                    </div>
+                    <p className="text-lg text-slate-300 mb-8 leading-relaxed">{feature.description}</p>
+                    <ul className="space-y-4">
+                      {feature.benefits.map((benefit, benefitIndex) => (
+                        <li key={benefitIndex} className="flex items-start gap-3">
                           <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                          <span className="text-slate-300">{item}</span>
+                          <span className="text-slate-300">{benefit}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div className={index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}>
-                    <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-8 border border-slate-700">
+                    <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-2xl p-8 border border-slate-700">
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
-                          <BarChart3 className="w-8 h-8 text-purple-400 mb-2" />
-                          <div className="text-sm text-slate-300">Performance Analytics</div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <Settings className="w-8 h-8 text-yellow-400 mb-2" />
+                          <div className="text-sm text-slate-300">Auto Configuration</div>
                         </div>
-                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
-                          <Target className="w-8 h-8 text-pink-400 mb-2" />
-                          <div className="text-sm text-slate-300">Smart Routing</div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <Workflow className="w-8 h-8 text-orange-400 mb-2" />
+                          <div className="text-sm text-slate-300">Smart Workflows</div>
                         </div>
-                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
-                          <MessageSquare className="w-8 h-8 text-purple-400 mb-2" />
-                          <div className="text-sm text-slate-300">Auto-Response</div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <Target className="w-8 h-8 text-yellow-400 mb-2" />
+                          <div className="text-sm text-slate-300">Precision Routing</div>
                         </div>
-                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
-                          <Brain className="w-8 h-8 text-pink-400 mb-2" />
-                          <div className="text-sm text-slate-300">AI Learning</div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <BarChart3 className="w-8 h-8 text-orange-400 mb-2" />
+                          <div className="text-sm text-slate-300">Real-time Analytics</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Team Collaboration Section */}
+        <section className="py-24 bg-slate-900/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-6">
+                <Users className="w-5 h-5 text-blue-400" />
+                <span className="text-sm text-blue-400 font-medium">Team Collaboration</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                  Team Features
+                </span>
+              </h2>
+              <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+                Empower your support teams with collaborative tools and intelligent assistance that enhance productivity and job satisfaction.
+              </p>
+            </div>
+
+            <div className="space-y-16">
+              {teamFeatures.map((feature, index) => (
+                <div
+                  key={index}
+                  className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-1000 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ animationDelay: `${(index + 3) * 300}ms` }}
+                >
+                  <div className={index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}>
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                        <Users className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-bold text-white">{feature.title}</h3>
+                    </div>
+                    <p className="text-lg text-slate-300 mb-8 leading-relaxed">{feature.description}</p>
+                    <ul className="space-y-4">
+                      {feature.capabilities.map((capability, capIndex) => (
+                        <li key={capIndex} className="flex items-start gap-3">
+                          <CheckCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                          <span className="text-slate-300">{capability}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className={index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}>
+                    <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl p-8 border border-slate-700">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <UserCheck className="w-8 h-8 text-blue-400 mb-2" />
+                          <div className="text-sm text-slate-300">Agent Tools</div>
+                        </div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <MessageCircle className="w-8 h-8 text-cyan-400 mb-2" />
+                          <div className="text-sm text-slate-300">Team Chat</div>
+                        </div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <Brain className="w-8 h-8 text-blue-400 mb-2" />
+                          <div className="text-sm text-slate-300">AI Assistance</div>
+                        </div>
+                        <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700 hover:scale-105 transition-transform duration-300">
+                          <BarChart3 className="w-8 h-8 text-cyan-400 mb-2" />
+                          <div className="text-sm text-slate-300">Performance Insights</div>
                         </div>
                       </div>
                     </div>
@@ -326,8 +412,8 @@ const SupportAutomationPage = () => {
         </section>
 
         {/* Industry Applications */}
-        <section className="py-24 bg-slate-900/30">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">Industry Success Stories</h2>
               <p className="text-xl text-slate-300 max-w-3xl mx-auto">
@@ -337,7 +423,13 @@ const SupportAutomationPage = () => {
 
             <div className="space-y-8">
               {industryApplications.map((app, index) => (
-                <div key={index} className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8">
+                <div 
+                  key={index} 
+                  className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 hover:scale-105 transition-all duration-300 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ animationDelay: `${index * 200}ms` }}
+                >
                   <div className="grid lg:grid-cols-3 gap-8">
                     <div>
                       <div className="text-sm text-purple-400 font-semibold mb-2">{app.industry}</div>
@@ -362,8 +454,8 @@ const SupportAutomationPage = () => {
         </section>
 
         {/* Implementation Process */}
-        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-24 bg-slate-900/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">Implementation Roadmap</h2>
               <p className="text-xl text-slate-300 max-w-3xl mx-auto">
@@ -373,7 +465,13 @@ const SupportAutomationPage = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {implementationPhases.map((phase, index) => (
-                <div key={index} className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6">
+                <div 
+                  key={index} 
+                  className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:scale-105 transition-all duration-300 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold text-xl mb-4">
                     {index + 1}
                   </div>
@@ -395,15 +493,21 @@ const SupportAutomationPage = () => {
         </section>
 
         {/* Testimonials */}
-        <section className="py-24 bg-slate-900/30">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">What Our Clients Say</h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               {testimonials.map((testimonial, index) => (
-                <div key={index} className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8">
+                <div 
+                  key={index} 
+                  className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 hover:scale-105 transition-all duration-300 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ animationDelay: `${index * 200}ms` }}
+                >
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
@@ -423,15 +527,21 @@ const SupportAutomationPage = () => {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
-          <div className="max-w-4xl mx-auto px-4">
+        <section className="py-24 bg-slate-900/30">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 text-white">Frequently Asked Questions</h2>
             </div>
 
             <div className="space-y-6">
               {faqs.map((faq, index) => (
-                <div key={index} className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6">
+                <div 
+                  key={index} 
+                  className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-purple-500/30 transition-all duration-300 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   <h3 className="text-xl font-semibold text-white mb-3">{faq.question}</h3>
                   <p className="text-slate-300 leading-relaxed">{faq.answer}</p>
                 </div>
@@ -442,7 +552,7 @@ const SupportAutomationPage = () => {
 
         {/* CTA Section */}
         <section className="py-24 bg-gradient-to-r from-slate-900 to-slate-800">
-          <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Transform Your Support Operations Today
             </h2>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Headphones, Zap, TrendingUp, Clock, Users, Shield, CheckCircle, ArrowRight, Star, Quote, BarChart3, Target, MessageSquare, Brain } from 'lucide-react';
+import { Headphones, TrendingUp, Clock, Shield, CheckCircle, ArrowRight, Star, Quote, BarChart3, Target, MessageSquare, Brain } from 'lucide-react';
 
 const SupportAutomationPage = () => {
   const [isVisible, setIsVisible] = useState(false);

@@ -11,8 +11,7 @@ import {
   Settings,
   Rocket,
   Mail,
-  Phone,
-  Building
+  Phone
 } from 'lucide-react';
 
 // Form data interface for type safety

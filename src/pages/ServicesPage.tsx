@@ -8,8 +8,6 @@ import {
   ArrowRight, 
   CheckCircle, 
   Sparkles,
-  MessageSquare,
-  Brain,
   Shield,
   Clock,
   Users,
